@@ -1,11 +1,20 @@
 import { CSSProperties } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
+import GridLoader from 'react-spinners/GridLoader';
 import { useIsFetching } from '@tanstack/react-query';
 import { ReactElement } from 'react';
-const override: CSSProperties = {
-  display: 'block',
+const wrap: CSSProperties = {
   position: 'fixed',
   zIndex: '9999',
+  top: '0',
+  left: '0',
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(255,255,255,.5)',
+};
+
+const spinner: CSSProperties = {
+  display: 'block',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -17,13 +26,17 @@ export function Loading(): ReactElement {
   const display = isFetching ? true : false;
 
   return (
-    <ClipLoader
-      color="#ffffff"
-      cssOverride={override}
-      loading={display}
-      size={150}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
+    <div style={{ display: `${display ? 'inherit' : 'none'}` }}>
+      <div style={wrap}>
+        <GridLoader
+          color="#36d7b7"
+          cssOverride={spinner}
+          loading={display}
+          size={25}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    </div>
   );
 }
