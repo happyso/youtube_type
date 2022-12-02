@@ -26,12 +26,27 @@ async function getSearch(query: string) {
   return response.data.items.map((item: any) => ({ ...item, id: item.id.videoId }));
 }
 
+async function getRelated(id: string) {
+  const response = await axiosInstance.get('channels', {
+    params: {
+      part: 'snippet',
+      maxResults: 25,
+      type: 'video',
+      relatedToVideoId: id,
+    },
+  });
+  return response.data.items.map((item: any) => ({ ...item, id: item.id.videoId }));
+}
+
 interface UseMost {
   mostPopular: any[];
 }
 
 interface UseSearch {
   searchData: any[];
+}
+interface UseRelated {
+  relatedData: any[];
 }
 
 export function useMost(): UseMost {
@@ -43,7 +58,14 @@ export function useMost(): UseMost {
 
 export function useSearch(query: string): UseSearch {
   const fallback: any[] = [];
-  const { data: searchData = fallback } = useQuery(['most'], () => getSearch(query));
+  const { data: searchData = fallback } = useQuery(['search', query], () => getSearch(query));
 
   return { searchData };
+}
+
+export function useRelated(id: string): UseRelated {
+  const fallback: any[] = [];
+  const { data: relatedData = fallback } = useQuery(['related', id], () => getRelated(id));
+
+  return { relatedData };
 }
