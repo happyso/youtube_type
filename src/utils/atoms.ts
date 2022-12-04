@@ -1,10 +1,8 @@
 import { atom } from 'recoil';
 import { axiosInstance } from './axiosInstance';
 import Youtube from './Youtube';
-import YoutubeClient from './youtubeClient';
 
-const client = new YoutubeClient(axiosInstance);
-const youtube = new Youtube(client);
+const youtube = new Youtube(axiosInstance);
 
 export const devYoutubeApi = atom({
   key: 'YoutubeApi',

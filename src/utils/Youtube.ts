@@ -10,13 +10,18 @@ export default class Youtube {
 
   async channelImageURL(id: string | undefined) {
     return this.apiClient
-      .channels({ params: { part: 'snippet', id } })
+      .get('channels', {
+        params: {
+          part: 'snippet',
+          id,
+        },
+      })
       .then((res: any) => res.data.items[0].snippet.thumbnails.default.url);
   }
 
   async relatedVideos(id: string) {
     return this.apiClient
-      .search({
+      .get('search', {
         params: {
           part: 'snippet',
           maxResults: 25,
@@ -29,7 +34,7 @@ export default class Youtube {
 
   async #searchByKeyword(keyword: string) {
     return this.apiClient
-      .search({
+      .get('search', {
         params: {
           part: 'snippet',
           maxResults: 25,
@@ -42,11 +47,11 @@ export default class Youtube {
 
   async #mostPopular() {
     return this.apiClient
-      .videos({
+      .get('videos', {
         params: {
           part: 'snippet',
-          maxResults: 25,
           chart: 'mostPopular',
+          maxResults: 25,
         },
       })
       .then((res: any) => res.data.items);

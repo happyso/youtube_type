@@ -8,10 +8,7 @@ import { devYoutubeApi } from '../../utils/atoms';
 export default function Videos() {
   const { keyword } = useParams();
   const youtube = useRecoilValue(devYoutubeApi);
-  console.log(youtube.search);
-
-  //const { mostPopular } = useMost();
-  const { data: videos } = useQuery(['videos', keyword], () => youtube.search(keyword), {
+  const { data: videos } = useQuery(['videos', keyword ? keyword : 'mostPopular'], () => youtube.search(keyword), {
     staleTime: 1000 * 60 * 1,
   });
 
