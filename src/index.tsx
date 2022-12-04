@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Videos from './pages/Videos/Videos';
+import VideoDetail from './pages/VideoDetail/VideoDetail';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       { index: true, element: <Videos /> }, //엘레먼트가 최상일 경우
       { path: 'videos', element: <Videos /> },
       { path: 'videos/:keyword', element: <Videos /> },
-      // { path: 'videos/watch/:videoId', element: <VideoDetail /> },
+      { path: 'videos/watch/:videoId', element: <VideoDetail /> },
     ],
   },
 ]);
