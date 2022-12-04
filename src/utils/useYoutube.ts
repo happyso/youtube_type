@@ -15,19 +15,23 @@ async function getMostPopular() {
 }
 
 async function getSearch(query: string) {
-  const response = await axiosInstance.get('search', {
+  const {
+    data: { items },
+  } = await axiosInstance.get('search', {
     params: {
       part: 'snippet',
-      chart: 'mostPopular',
       maxResults: 25,
+      type: 'video',
       q: query,
     },
   });
-  return response.data.items.map((item: any) => ({ ...item, id: item.id.videoId }));
+  return items.map((item: any) => ({ ...item, id: item.id.videoId }));
 }
 
 async function getRelated(id: string) {
-  const response = await axiosInstance.get('channels', {
+  const {
+    data: { items },
+  } = await axiosInstance.get('channels', {
     params: {
       part: 'snippet',
       maxResults: 25,
@@ -35,7 +39,7 @@ async function getRelated(id: string) {
       relatedToVideoId: id,
     },
   });
-  return response.data.items.map((item: any) => ({ ...item, id: item.id.videoId }));
+  return items.map((item: any) => ({ ...item, id: item.id.videoId }));
 }
 
 interface UseMost {

@@ -1,17 +1,23 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useMost } from '../../utils/useYoutube';
 import VideoCard from '../../components/VideoCard/VideoCard';
+import { useRecoilValue } from 'recoil';
+import { devYoutubeApi } from '../../utils/atoms';
 
 export default function Videos() {
   const { keyword } = useParams();
-  console.log(keyword);
+  const youtube = useRecoilValue(devYoutubeApi);
+  console.log(youtube.search);
 
-  const { mostPopular } = useMost();
+  //const { mostPopular } = useMost();
+  const { data: videos } = useQuery(['videos', keyword], () => youtube.search(keyword), {
+    staleTime: 1000 * 60 * 1,
+  });
 
   return (
     <ul>
-      {mostPopular.map((video) => (
+      {videos?.map((video: any) => (
         <VideoCard key={video.id} video={video} />
       ))}
     </ul>

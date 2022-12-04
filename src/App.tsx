@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Loading } from './components/Loading/Loading';
 import SearchHeader from './components/SearchHeader/SearchHeader';
 import { Outlet } from 'react-router';
+import { RecoilRoot } from 'recoil';
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -11,10 +13,10 @@ function App() {
     <>
       <SearchHeader />
       <QueryClientProvider client={queryClient}>
-        <Loading />
-        <div className="wrapper">
+        <RecoilRoot>
+          <Loading />
           <Outlet />
-        </div>
+        </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
